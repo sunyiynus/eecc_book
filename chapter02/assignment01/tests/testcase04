@@ -1,0 +1,12 @@
+%option noyywrap
+%{
+int chars = 0;
+int wrods = 0;
+int lines = 0;
+}%
+
+%%
+[a-zA-Z] {word++; chars+= strlen(yytext);}
+\n	 {chars++; lines++;}
+. 	 {chars++;}
+%%
