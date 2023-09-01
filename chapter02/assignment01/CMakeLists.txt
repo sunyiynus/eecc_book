@@ -13,21 +13,28 @@ else()
     message(STATUS "Configuring on/for ${CMAKE_SYSTEM_NAME}")
 endif()
 
-add_custom_target(pl0scaner
-    ALL
+add_custom_command(
+    OUTPUT
+        ${CMAKE_CURRENT_BINARY_DIR}/pl0_lexer.c
     COMMAND
-        flex ${CMAKE_CURRENT_SOURCE_DIR}/pl0.l
+        flex -o pl0_lexer.c ${CMAKE_CURRENT_SOURCE_DIR}/pl0.l 
     WORKING_DIRECTORY
         ${CMAKE_CURRENT_BINARY_DIR}
-    COMMENT
-        "Generating flex lexer lex.yy.c ..")
+    DEPENDS
+        ${CMAKE_CURRENT_SOURCE_DIR}/pl0.l
+)
+    # COMMENT
+    #     "Generating flex lexer lex.yy.c ..")
 
 add_executable(pl0lexer "")
+# add_dependencies(pl0lexer ${CMAKE_CURRENT_BINARY_DIR}/pl0_lexer.c)
 target_sources(pl0lexer
     PRIVATE
-        lex.yy.c
-        ${CMAKE_CURRENT_BINARY_DIR}/lex.yy.c
+        ${CMAKE_CURRENT_BINARY_DIR}/pl0_lexer.c
 )
+message("CMAKE_CURRENT_BINARY_DIR = ${CMAKE_CURRENT_BINARY_DIR}")
+message("CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}")
+message("CMAKE_SOURCE_DIR = ${CMAKE_SOURCE_DIR}")
 
 enable_testing()
 

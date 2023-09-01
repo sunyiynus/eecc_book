@@ -34,3 +34,4 @@
 **/build/**
 **/lex.yy.c
 .vscode
+build
